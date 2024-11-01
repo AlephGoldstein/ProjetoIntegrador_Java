@@ -60,9 +60,8 @@ public class CadastroAlunos {
             System.out.println("\nEscolha uma opção:");
             System.out.println("1 - Cadastrar Aluno ou Funcionário");
             System.out.println("2 - Listar Alunos ou Funcionários");
-            System.out.println("3 - Buscar Aluno por ID");
-            System.out.println("4 - Buscar Funcionário por ID");
-            System.out.println("5 - Sair");
+            System.out.println("3 - Buscar por ID");
+            System.out.println("4 - Sair");
             opt = scanner.nextInt();
             scanner.nextLine();
 
@@ -116,45 +115,47 @@ public class CadastroAlunos {
                     break;
 
                 case 3:
-                    System.out.print("Digite o ID do aluno que deseja buscar: ");
-                    int idBuscaAluno = scanner.nextInt();
-                    boolean alunoEncontrado = false;
-                    for (Aluno aluno : alunosList) {
-                        if (aluno.getId() == idBuscaAluno) {
-                            System.out.println("Aluno encontrado: " + aluno);
-                            alunoEncontrado = true;
-                            break;
+                    System.out.println("Deseja buscar aluno ou funcionário? ");
+                    escolha = scanner.nextLine().toLowerCase();
+                    System.out.print("Digite o ID que deseja buscar: ");
+                    int idBusca = scanner.nextInt();
+                    boolean encontrado = false;
+
+                    if (escolha.equals("aluno")) {
+                        for (Aluno aluno : alunosList) {
+                            if (aluno.getId() == idBusca) {
+                                System.out.println("Aluno encontrado: " + aluno);
+                                encontrado = true;
+                                break;
+                            }
                         }
-                    }
-                    if (!alunoEncontrado) {
-                        System.out.println("Aluno com ID " + idBuscaAluno + " não encontrado.");
+                        if (!encontrado) {
+                            System.out.println("Aluno com ID " + idBusca + " não encontrado.");
+                        }
+                    } else if (escolha.equals("funcionario")) {
+                        for (Funcionario funcionario : funcionariosList) {
+                            if (funcionario.getId() == idBusca) {
+                                System.out.println("Funcionário encontrado: " + funcionario);
+                                encontrado = true;
+                                break;
+                            }
+                        }
+                        if (!encontrado) {
+                            System.out.println("Funcionário com ID " + idBusca + " não encontrado.");
+                        }
+                    } else {
+                        System.out.println("Opção inválida.");
                     }
                     break;
 
                 case 4:
-                    System.out.print("Digite o ID do funcionário que deseja buscar: ");
-                    int idBuscaFunc = scanner.nextInt();
-                    boolean funcionarioEncontrado = false;
-                    for (Funcionario funcionario : funcionariosList) {
-                        if (funcionario.getId() == idBuscaFunc) {
-                            System.out.println("Funcionário encontrado: " + funcionario);
-                            funcionarioEncontrado = true;
-                            break;
-                        }
-                    }
-                    if (!funcionarioEncontrado) {
-                        System.out.println("Funcionário com ID " + idBuscaFunc + " não encontrado.");
-                    }
-                    break;
-
-                case 5:
                     System.out.println("Encerrando o sistema...");
                     break;
 
                 default:
                     System.out.println("Opção inválida, tente novamente.");
             }
-        } while (opt != 5);
+        } while (opt != 4);
 
         scanner.close();
     }
