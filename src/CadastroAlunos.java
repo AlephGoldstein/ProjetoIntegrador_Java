@@ -20,10 +20,6 @@ public class CadastroAlunos {
             return id;
         }
 
-        public int getMatricula() {
-            return matricula;
-        }
-
         @Override
         public String toString() {
             return "ID: " + id + " | Aluno: " + nome + ", Matrícula: " + matricula;
@@ -48,10 +44,6 @@ public class CadastroAlunos {
             return id;
         }
 
-        public int getMatricula() {
-            return matricula;
-        }
-
         @Override
         public String toString() {
             return "ID: " + id + " | Nome: " + nome + ", Matrícula: " + matricula + ", Cargo: " + cargo;
@@ -63,41 +55,69 @@ public class CadastroAlunos {
         List<Aluno> alunosList = new ArrayList<>();
         List<Funcionario> funcionariosList = new ArrayList<>();
 
-        int opt = 0;
+        int opt;
         do {
             System.out.println("\nEscolha uma opção:");
-            System.out.println("1 - Cadastrar novo aluno");
-            System.out.println("2 - Listar alunos");
-            System.out.println("3 - Buscar um aluno por ID");
-            System.out.println("4 - Cadastrar funcionário");
-            System.out.println("5 - Listar funcionários");
-            System.out.println("6 - Buscar funcionário por ID");
-            System.out.println("7 - Sair");
+            System.out.println("1 - Cadastrar Aluno ou Funcionário");
+            System.out.println("2 - Listar Alunos ou Funcionários");
+            System.out.println("3 - Buscar Aluno por ID");
+            System.out.println("4 - Buscar Funcionário por ID");
+            System.out.println("5 - Sair");
             opt = scanner.nextInt();
             scanner.nextLine();
 
             switch (opt) {
                 case 1:
-                    System.out.print("Digite o nome do aluno: ");
-                    String nomeAluno = scanner.nextLine();
-                    System.out.print("Digite o número de matrícula do aluno: ");
-                    int matriculaAluno = scanner.nextInt();
-                    scanner.nextLine();
-                    alunosList.add(new Aluno(nomeAluno, matriculaAluno));
-                    System.out.println("Aluno cadastrado com sucesso!");
+                    System.out.println("Deseja cadastrar aluno ou funcionário? ");
+                    String escolha = scanner.nextLine().toLowerCase();
+                    if (escolha.equals("aluno")) {
+                        System.out.print("Digite o nome do aluno: ");
+                        String nomeAluno = scanner.nextLine();
+                        System.out.print("Digite o número de matrícula do aluno: ");
+                        int matriculaAluno = scanner.nextInt();
+                        scanner.nextLine();
+                        alunosList.add(new Aluno(nomeAluno, matriculaAluno));
+                        System.out.println("Aluno cadastrado com sucesso!");
+                    } else if (escolha.equals("funcionario")) {
+                        System.out.print("Digite o nome do funcionário: ");
+                        String nomeFunc = scanner.nextLine();
+                        System.out.print("Digite o número de matrícula do funcionário: ");
+                        int matriculaFunc = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Digite o cargo do funcionário (cord para Coordenador ou aqv para Analista de Qualidade de Vida): ");
+                        String cargo = scanner.nextLine();
+                        if (!cargo.equals("cord") && !cargo.equals("aqv")) {
+                            System.out.println("Cargo inválido. Escolha 'cord' ou 'aqv'.");
+                        } else {
+                            funcionariosList.add(new Funcionario(nomeFunc, matriculaFunc, cargo));
+                            System.out.println("Funcionário cadastrado com sucesso!");
+                        }
+                    } else {
+                        System.out.println("Opção inválida. Tente novamente.");
+                    }
                     break;
 
                 case 2:
-                    System.out.println("Lista de Alunos:");
-                    for (Aluno aluno : alunosList) {
-                        System.out.println(aluno);
+                    System.out.println("Deseja listar alunos ou funcionários? ");
+                    escolha = scanner.nextLine().toLowerCase();
+                    if (escolha.equals("aluno")) {
+                        System.out.println("Lista de Alunos:");
+                        for (Aluno aluno : alunosList) {
+                            System.out.println(aluno);
+                        }
+                    } else if (escolha.equals("funcionario")) {
+                        System.out.println("Lista de Funcionários:");
+                        for (Funcionario funcionario : funcionariosList) {
+                            System.out.println(funcionario);
+                        }
+                    } else {
+                        System.out.println("Opção inválida. Tente novamente.");
                     }
                     break;
 
                 case 3:
                     System.out.print("Digite o ID do aluno que deseja buscar: ");
                     int idBuscaAluno = scanner.nextInt();
-                    scanner.nextLine();
                     boolean alunoEncontrado = false;
                     for (Aluno aluno : alunosList) {
                         if (aluno.getId() == idBuscaAluno) {
@@ -112,32 +132,8 @@ public class CadastroAlunos {
                     break;
 
                 case 4:
-                    System.out.print("Digite o nome do funcionário: ");
-                    String nomeFunc = scanner.nextLine();
-                    System.out.print("Digite o número de matrícula do funcionário: ");
-                    int matriculaFunc = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Digite o cargo do funcionário (cord para Coordenador ou aqv para Analista de Qualidade de Vida): ");
-                    String cargo = scanner.nextLine();
-                    if (!cargo.equals("cord") && !cargo.equals("aqv")) {
-                        System.out.println("Cargo inválido. Escolha 'cord' ou 'aqv'.");
-                    } else {
-                        funcionariosList.add(new Funcionario(nomeFunc, matriculaFunc, cargo));
-                        System.out.println("Funcionário cadastrado com sucesso!");
-                    }
-                    break;
-
-                case 5:
-                    System.out.println("Lista de Funcionários:");
-                    for (Funcionario funcionario : funcionariosList) {
-                        System.out.println(funcionario);
-                    }
-                    break;
-
-                case 6:
                     System.out.print("Digite o ID do funcionário que deseja buscar: ");
                     int idBuscaFunc = scanner.nextInt();
-                    scanner.nextLine();
                     boolean funcionarioEncontrado = false;
                     for (Funcionario funcionario : funcionariosList) {
                         if (funcionario.getId() == idBuscaFunc) {
@@ -151,15 +147,14 @@ public class CadastroAlunos {
                     }
                     break;
 
-                case 7:
+                case 5:
                     System.out.println("Encerrando o sistema...");
                     break;
 
                 default:
                     System.out.println("Opção inválida, tente novamente.");
             }
-
-        } while (opt != 7);
+        } while (opt != 5);
 
         scanner.close();
     }
