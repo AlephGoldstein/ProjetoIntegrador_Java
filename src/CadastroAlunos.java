@@ -20,15 +20,48 @@ public class CadastroAlunos {
             return id;
         }
 
+        public int getMatricula() {
+            return matricula;
+        }
+
         @Override
         public String toString() {
             return "ID: " + id + " | Aluno: " + nome + ", Matrícula: " + matricula;
         }
     }
 
+    public static class Funcionario {
+        private static int contadorId = 1;
+        private int id;
+        private String nome;
+        private int matricula;
+        private String cargo;
+
+        public Funcionario(String nome, int matricula, String cargo) {
+            this.id = contadorId++;
+            this.nome = nome;
+            this.matricula = matricula;
+            this.cargo = cargo;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public int getMatricula() {
+            return matricula;
+        }
+
+        @Override
+        public String toString() {
+            return "ID: " + id + " | Nome: " + nome + ", Matrícula: " + matricula + ", Cargo: " + cargo;
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Aluno> alunosList = new ArrayList<>();
+        List<Funcionario> funcionariosList = new ArrayList<>();
 
         int opt = 0;
         do {
@@ -36,19 +69,21 @@ public class CadastroAlunos {
             System.out.println("1 - Cadastrar novo aluno");
             System.out.println("2 - Listar alunos");
             System.out.println("3 - Buscar um aluno por ID");
-            System.out.println("4 - Sair");
+            System.out.println("4 - Cadastrar funcionário");
+            System.out.println("5 - Listar funcionários");
+            System.out.println("6 - Buscar funcionário por ID");
+            System.out.println("7 - Sair");
             opt = scanner.nextInt();
             scanner.nextLine();
 
             switch (opt) {
                 case 1:
                     System.out.print("Digite o nome do aluno: ");
-                    String nome = scanner.nextLine();
-                    System.out.print("Digite o número de matrícula: ");
-                    int matricula = scanner.nextInt();
+                    String nomeAluno = scanner.nextLine();
+                    System.out.print("Digite o número de matrícula do aluno: ");
+                    int matriculaAluno = scanner.nextInt();
                     scanner.nextLine();
-
-                    alunosList.add(new Aluno(nome, matricula));
+                    alunosList.add(new Aluno(nomeAluno, matriculaAluno));
                     System.out.println("Aluno cadastrado com sucesso!");
                     break;
 
@@ -61,24 +96,62 @@ public class CadastroAlunos {
 
                 case 3:
                     System.out.print("Digite o ID do aluno que deseja buscar: ");
-                    int idBusca = scanner.nextInt();
+                    int idBuscaAluno = scanner.nextInt();
                     scanner.nextLine();
-
                     boolean alunoEncontrado = false;
                     for (Aluno aluno : alunosList) {
-                        if (aluno.getId() == idBusca) {
+                        if (aluno.getId() == idBuscaAluno) {
                             System.out.println("Aluno encontrado: " + aluno);
                             alunoEncontrado = true;
                             break;
                         }
                     }
-
                     if (!alunoEncontrado) {
-                        System.out.println("Aluno com ID " + idBusca + " não encontrado.");
+                        System.out.println("Aluno com ID " + idBuscaAluno + " não encontrado.");
                     }
                     break;
 
                 case 4:
+                    System.out.print("Digite o nome do funcionário: ");
+                    String nomeFunc = scanner.nextLine();
+                    System.out.print("Digite o número de matrícula do funcionário: ");
+                    int matriculaFunc = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Digite o cargo do funcionário (cord para Coordenador ou aqv para Analista de Qualidade de Vida): ");
+                    String cargo = scanner.nextLine();
+                    if (!cargo.equals("cord") && !cargo.equals("aqv")) {
+                        System.out.println("Cargo inválido. Escolha 'cord' ou 'aqv'.");
+                    } else {
+                        funcionariosList.add(new Funcionario(nomeFunc, matriculaFunc, cargo));
+                        System.out.println("Funcionário cadastrado com sucesso!");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Lista de Funcionários:");
+                    for (Funcionario funcionario : funcionariosList) {
+                        System.out.println(funcionario);
+                    }
+                    break;
+
+                case 6:
+                    System.out.print("Digite o ID do funcionário que deseja buscar: ");
+                    int idBuscaFunc = scanner.nextInt();
+                    scanner.nextLine();
+                    boolean funcionarioEncontrado = false;
+                    for (Funcionario funcionario : funcionariosList) {
+                        if (funcionario.getId() == idBuscaFunc) {
+                            System.out.println("Funcionário encontrado: " + funcionario);
+                            funcionarioEncontrado = true;
+                            break;
+                        }
+                    }
+                    if (!funcionarioEncontrado) {
+                        System.out.println("Funcionário com ID " + idBuscaFunc + " não encontrado.");
+                    }
+                    break;
+
+                case 7:
                     System.out.println("Encerrando o sistema...");
                     break;
 
@@ -86,7 +159,7 @@ public class CadastroAlunos {
                     System.out.println("Opção inválida, tente novamente.");
             }
 
-        } while (opt != 4);
+        } while (opt != 7);
 
         scanner.close();
     }
